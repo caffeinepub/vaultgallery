@@ -1,12 +1,12 @@
 {
-  "frontend/src/App.tsx": "Main application component that handles authentication gating, profile setup, theme provider setup, and view routing between Library, Albums, Vault, and Settings pages.",
+  "frontend/src/App.tsx": "Main application component with fixed flex layout using min-h-0 on main content area to prevent overflow issues and ensure proper scrolling on mobile.",
   "frontend/src/hooks/useUserProfile.ts": "React Query hooks for fetching and saving the caller's user profile with proper loading state management to prevent modal flash.",
   "frontend/src/hooks/useLibrary.ts": "React Query hooks for managing media items including fetching all media, individual items, adding new media, and retrieving library metadata for export.",
   "frontend/src/hooks/useAlbums.ts": "React Query hooks for album management including fetching all albums, individual albums, creating albums, and reordering albums.",
   "frontend/src/hooks/useVault.ts": "React Query hooks for vault operations (status, PIN setup, unlock) plus in-memory vault state management that resets on page reload.",
-  "frontend/src/components/auth/LoginButton.tsx": "Login/logout button component using Internet Identity with proper cache clearing on logout and loading states.",
+  "frontend/src/components/auth/LoginButton.tsx": "Login/logout button component with responsive text labels (abbreviated on mobile) and full-width styling in mobile menu context.",
   "frontend/src/components/auth/ProfileSetupModal.tsx": "Modal dialog for first-time profile setup that prompts authenticated users without a profile to enter their display name.",
-  "frontend/src/components/layout/AppHeader.tsx": "Application header with logo, navigation buttons for all views (Library, Albums, Vault, Settings), and login button.",
+  "frontend/src/components/layout/AppHeader.tsx": "Responsive application header with mobile hamburger menu (Sheet component) that collapses navigation on small screens, showing logo and menu button on mobile while preserving full navigation on desktop.",
   "frontend/src/components/media/MediaUploader.tsx": "File upload component supporting images and videos with progress tracking, thumbnail generation, and ExternalBlob integration, now correctly using Variant_video_photo enum values.",
   "frontend/src/components/media/MediaGrid.tsx": "Responsive grid component for displaying media thumbnails with infinite scroll/incremental loading, now correctly using Variant_video_photo enum for type checking.",
   "frontend/src/components/media/MediaViewerModal.tsx": "Full-screen modal viewer for images and videos with metadata display, edit button for photos, and lock/unlock actions, now correctly using Variant_video_photo enum for type checking.",
@@ -18,7 +18,11 @@
   "frontend/src/pages/LibraryPage.tsx": "Main library view displaying all visible media in a grid with upload functionality and empty state illustration.",
   "frontend/src/pages/AlbumsPage.tsx": "Albums management page with create album dialog, album grid display, and empty state illustration.",
   "frontend/src/pages/VaultPage.tsx": "Vault page showing locked items after PIN unlock, with setup flow for first-time users and unlock prompt for locked state.",
-  "frontend/src/pages/SettingsPage.tsx": "Settings page with dark mode toggle, backup export/import functionality, storage warnings, and footer attribution.",
-  "frontend/src/index.css": "Global styles with OKLCH color system defining light and dark mode tokens with a purple-blue primary color scheme.",
-  "frontend/tailwind.config.js": "Tailwind configuration with extended color tokens, border radius, and shadow utilities for consistent design system."
+  "frontend/src/pages/SettingsPage.tsx": "Settings page with app link sharing section, Android installation guide, dark mode toggle, backup/restore functionality, and footer attribution.",
+  "frontend/src/index.css": "Global styles with OKLCH color system and added overflow-x prevention rules to prevent horizontal scrolling on mobile devices.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended color tokens, border radius, and shadow utilities for consistent design system.",
+  "frontend/src/components/settings/OpenShareAppLinkSection.tsx": "Settings sub-section component that displays the current app URL with copy-to-clipboard and open-in-new-tab actions using sonner toast feedback.",
+  "frontend/src/components/settings/AndroidAccessHelpGuide.tsx": "Help guide component with step-by-step Android Chrome instructions for turning OFF Desktop site, refreshing, and adding the app to home screen, including embedded visual assets.",
+  "frontend/public/site.webmanifest": "PWA manifest file defining app name, icons, display mode, theme colors, and start URL for installability on Android and other platforms.",
+  "frontend/index.html": "HTML entry point with PWA meta tags, manifest link, theme color, and icon references for proper mobile installation support."
 }

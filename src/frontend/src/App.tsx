@@ -48,7 +48,7 @@ export default function App() {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="flex h-screen flex-col bg-background">
         <AppHeader currentView={currentView} onViewChange={setCurrentView} />
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1 min-h-0 overflow-hidden">
           {currentView === 'library' && <LibraryPage />}
           {currentView === 'albums' && <AlbumsPage />}
           {currentView === 'vault' && <VaultPage />}

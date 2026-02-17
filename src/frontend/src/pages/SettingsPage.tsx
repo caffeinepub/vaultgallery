@@ -7,6 +7,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Download, Upload, AlertTriangle, Heart } from 'lucide-react';
 import { useGetLibraryMetadata } from '../hooks/useLibrary';
 import { toast } from 'sonner';
+import OpenShareAppLinkSection from '../components/settings/OpenShareAppLinkSection';
+import AndroidAccessHelpGuide from '../components/settings/AndroidAccessHelpGuide';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
@@ -59,6 +61,10 @@ export default function SettingsPage() {
             Manage your gallery preferences and data
           </p>
         </div>
+
+        <OpenShareAppLinkSection />
+
+        <AndroidAccessHelpGuide />
 
         <Card>
           <CardHeader>

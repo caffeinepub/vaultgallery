@@ -33,11 +33,13 @@ export default function LoginButton() {
       disabled={disabled}
       variant={isAuthenticated ? 'outline' : 'default'}
       size="sm"
+      className="w-full md:w-auto"
     >
       {loginStatus === 'logging-in' ? (
         <>
           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-          Logging in...
+          <span className="hidden sm:inline">Logging in...</span>
+          <span className="sm:hidden">...</span>
         </>
       ) : isAuthenticated ? (
         <>

@@ -1,339 +1,73 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Vault Gallery — Frontend Implementation Plan",
+  "title": "Vault Gallery: Mobile header and app-shell layout fixes",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Add Internet Identity sign-in/out gating and ensure all UI data is scoped to the authenticated principal, with first-login profile setup.",
+      "summary": "Make the top app header responsive on small screens to prevent nav/auth overflow while keeping navigation usable.",
       "acceptanceCriteria": [
-        "User can sign in and sign out using Internet Identity.",
-        "After sign-in, the app shows only the signed-in user’s media and albums; switching identities shows different data.",
-        "Unauthenticated users are prompted to sign in and cannot access any stored media."
+        "On narrow viewports (e.g., 360–430px wide), the header content fits within the viewport without horizontal scrolling or clipped buttons.",
+        "Navigation remains fully usable on mobile (e.g., via a collapsed menu, icon-only buttons, or a horizontally scrollable nav that remains discoverable).",
+        "The Login/Logout control remains accessible on mobile without overlapping other controls.",
+        "No regression on desktop/tablet layouts; the current header layout remains usable and visually consistent at >= 768px width."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
-          "operation": "create",
-          "description": "Create the root app shell that gates all gallery routes behind Internet Identity authentication (showing a sign-in screen when unauthenticated), and wires navigation between Library, Albums, Vault, and Settings. Use the authorization component guidance to ensure data is not shown to guests and cached data is cleared on logout. Verify the component's usage instructions before implementing."
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Refactor header layout for mobile: switch to a responsive structure (e.g., stacked rows or collapsed nav) so Library/Albums/Vault/Settings and the auth control never overflow; preserve the current desktop/tablet presentation at >=768px. Continue using the shadcn-ui Button component for consistent styling and interaction states; verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/components/auth/LoginButton.tsx",
-          "operation": "create",
-          "description": "Implement a login/logout button using the existing Internet Identity hook and React Query cache clearing on logout. Use the authorization component guidance for handling login edge cases and cache clearing. Verify the component's usage instructions before implementing."
+          "operation": "modify",
+          "description": "Make the Login/Logout control responsive (e.g., icon-only or compact variant on small screens with accessible labels) so it stays reachable without forcing horizontal overflow. Continue using the shadcn-ui Button component for consistent styling; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/hooks/useUserProfile.ts",
-          "operation": "create",
-          "description": "Add React Query hooks to load and save the caller user profile (name) via the backend interface, and expose derived state to prevent profile-setup modal flash as recommended by the authorization component guidance. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/auth/ProfileSetupModal.tsx",
-          "operation": "create",
-          "description": "Create a first-login modal that prompts for a display name (English text) and saves it via the user profile hooks; ensure it only appears for authenticated users without an existing profile. Use the authorization component guidance for profile setup flow. Verify the component's usage instructions before implementing."
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add minimal global safeguards to prevent accidental horizontal scrolling on small screens (e.g., ensure the app does not introduce unintended horizontal overflow), without changing the overall theme tokens."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Implement media upload, fast smooth-scrolling grid browsing, and a detail viewer with basic metadata for photos and videos.",
+      "summary": "Fix app-shell/main layout so pages render and scroll correctly beneath the header on mobile with no blank panels or hidden content.",
       "acceptanceCriteria": [
-        "User can upload image and video files from their computer into the app.",
-        "Library displays uploaded media in a grid with thumbnails and supports smooth scrolling for large lists.",
-        "Clicking an item opens a viewer (image view or video player) with basic metadata shown.",
-        "Media persists across refreshes for the same signed-in identity."
+        "When switching between views on mobile, the main content area is visible and scrollable as expected (e.g., Library grid and page headers are not hidden behind the app header).",
+        "No unintended blank/empty panel occupies the majority of the screen after navigation on mobile.",
+        "Pages that already manage their own scrolling (e.g., `h-full overflow-auto`) continue to scroll properly within the app shell."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useLibrary.ts",
-          "operation": "create",
-          "description": "Create React Query hooks for fetching the user’s media list and individual media items, and for uploading new media items. Use the blob-storage component (ExternalBlob) to represent uploaded bytes and to render media via direct URLs where appropriate for efficient viewing. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/media/MediaUploader.tsx",
-          "operation": "create",
-          "description": "Build a web upload UI for photos/videos with progress indication. Use the blob-storage component (ExternalBlob.fromBytes + withUploadProgress) to upload and track progress, then submit the created media item via library hooks. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/media/MediaGrid.tsx",
-          "operation": "create",
-          "description": "Implement a thumbnail-based grid with smooth scrolling for large lists using incremental rendering (e.g., infinite scroll via IntersectionObserver) and avoiding full-resolution loading in the grid. Use the blob-storage component to render thumbnails via direct URLs from thumbnail blobs. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/media/MediaViewerModal.tsx",
-          "operation": "create",
-          "description": "Create a modal viewer that shows the selected item (image or video player) and displays metadata (type, uploaded/created time if available, size). Load full-resolution only inside the viewer using direct URLs from original/edited blobs via blob-storage. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/LibraryPage.tsx",
-          "operation": "create",
-          "description": "Create the Library page that composes MediaUploader + MediaGrid and opens MediaViewerModal on selection. Ensure locked/hidden items are excluded unless Vault is currently unlocked (wired via vault state hooks)."
-        },
-        {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Wire the Library page into the authenticated area navigation and route/view switching so it is reachable after sign-in."
+          "description": "Adjust the app shell flex layout to correctly allocate height between header and main content on mobile (e.g., ensure the main region can shrink with `min-h-0` patterns and avoids creating empty space), while keeping existing view switching behavior intact."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Align header sizing with the updated app shell (e.g., avoid fixed-height assumptions that break when the header wraps/collapses on mobile) so the main area consistently starts beneath the header."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Implement album management UI: create/rename/delete albums, add/remove media items, and reorder albums with persistent order.",
+      "summary": "Ensure the frontend build succeeds after responsive header and layout updates, with no new console/runtime errors when switching views.",
       "acceptanceCriteria": [
-        "User can create an album with a name.",
-        "User can rename and delete an album.",
-        "User can add/remove selected media items to/from an album.",
-        "User can reorder albums and the order persists after refresh."
+        "`frontend` production build succeeds without TypeScript errors.",
+        "No runtime console errors are introduced in the header/navigation code paths when switching views."
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/hooks/useAlbums.ts",
-          "operation": "create",
-          "description": "Create React Query hooks for listing albums and performing album mutations (create, rename, delete, reorder, and media membership changes) by calling the backend capabilities exposed for albums. Ensure queries are keyed per authenticated principal and invalidated appropriately after mutations."
-        },
-        {
-          "path": "frontend/src/components/albums/AlbumsList.tsx",
-          "operation": "create",
-          "description": "Build an albums list UI with controls to create, rename, delete, and reorder albums (e.g., up/down or drag-and-drop). Persist album order by calling the reorder capability via the albums hooks."
-        },
-        {
-          "path": "frontend/src/components/albums/AlbumDetail.tsx",
-          "operation": "create",
-          "description": "Create an album detail view that shows album media, supports adding/removing items (e.g., via selection from the library), and respects Vault visibility rules (locked items only visible when Vault is unlocked)."
-        },
-        {
-          "path": "frontend/src/pages/AlbumsPage.tsx",
-          "operation": "create",
-          "description": "Create the Albums page composing AlbumsList and AlbumDetail, including an empty state illustration when no albums exist."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire the Albums page into authenticated navigation and ensure it is reachable after sign-in."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Add basic in-browser photo editing (crop, rotate, filters, brightness/contrast) with save-as-copy and optional replace-original flow.",
-      "acceptanceCriteria": [
-        "From an image viewer, user can open an editor with crop + rotate controls.",
-        "User can apply at least a few basic filters (e.g., grayscale, sepia, vivid) and adjust brightness/contrast.",
-        "User can save the edit as a new media item (copy).",
-        "User can choose to replace the original (when selected) and the result persists after refresh."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/editor/ImageEditorModal.tsx",
-          "operation": "create",
-          "description": "Implement an image editor modal launched from the image viewer that supports crop, rotate, basic filters (e.g., grayscale, sepia, vivid-like), and brightness/contrast adjustments using a canvas-based pipeline. Provide actions to save as a new copy or replace the original (by calling the appropriate backend capability through hooks)."
-        },
-        {
-          "path": "frontend/src/utils/imageEditing.ts",
-          "operation": "create",
-          "description": "Add client-side utilities to apply crop/rotate/filter/adjustment operations to an image and export an edited blob (bytes) suitable for upload."
-        },
-        {
-          "path": "frontend/src/hooks/useLibrary.ts",
-          "operation": "modify",
-          "description": "Extend library hooks to support saving edited results (upload edited bytes using blob-storage ExternalBlob, create a new media item for save-as-copy, and trigger a replace-original workflow by calling the backend capability intended for replacements). Use blob-storage direct upload patterns for edited media. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/media/MediaViewerModal.tsx",
-          "operation": "modify",
-          "description": "Add an 'Edit' action for photos that opens ImageEditorModal, and refreshes the viewer/library state after saving edits."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Implement privacy features: mark items Hidden/Locked and add a Vault section protected by an app-specific PIN with unlock-required access.",
-      "acceptanceCriteria": [
-        "User can set a PIN (with confirmation) after signing in.",
-        "Locked/hidden items are not visible in the main library or albums unless the Vault is unlocked.",
-        "Vault requires entering the PIN to view locked items; locking state resets on page reload.",
-        "User can change the PIN after successfully unlocking with the current PIN."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useVault.ts",
-          "operation": "create",
-          "description": "Create hooks for reading vault status, setting/changing PIN, and unlocking. Maintain Vault unlocked state in-memory only (so it resets on reload) and expose helpers for filtering locked/hidden items from standard views."
-        },
-        {
-          "path": "frontend/src/components/vault/PinSetupModal.tsx",
-          "operation": "create",
-          "description": "Create a PIN setup/change modal with confirmation and English validation messages. Integrate with vault hooks for initial PIN set and PIN change (requiring prior unlock)."
-        },
-        {
-          "path": "frontend/src/components/vault/VaultUnlockModal.tsx",
-          "operation": "create",
-          "description": "Create a Vault unlock modal prompting for PIN and unlocking via vault hooks. Ensure locked state is not persisted across reloads."
-        },
-        {
-          "path": "frontend/src/pages/VaultPage.tsx",
-          "operation": "create",
-          "description": "Create a Vault page/section that shows locked items only after successful PIN unlock; when locked, show an unlock prompt. Ensure locked/hidden items are excluded from Library/Albums unless unlocked."
-        },
-        {
-          "path": "frontend/src/components/media/MediaActions.tsx",
-          "operation": "create",
-          "description": "Add UI actions for marking a media item as Hidden/Locked and unmarking it. Wire actions through library hooks to call the backend capability intended to persist lock/hidden flags."
-        },
-        {
-          "path": "frontend/src/pages/LibraryPage.tsx",
-          "operation": "modify",
-          "description": "Filter out locked/hidden items by default using vault hook state, and include MediaActions in item interactions (e.g., context menu or action bar)."
-        },
-        {
-          "path": "frontend/src/components/albums/AlbumDetail.tsx",
-          "operation": "modify",
-          "description": "Ensure album media lists respect Vault visibility rules (exclude locked/hidden items unless Vault is unlocked)."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire the Vault page into authenticated navigation and ensure vault lock state resets on page reload by relying on in-memory state."
-        }
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "summary": "Add light/dark mode toggle with a consistent English UI theme and persistence across reloads.",
-      "acceptanceCriteria": [
-        "User can toggle between light and dark mode.",
-        "Theme choice persists across reloads (for the same browser).",
-        "UI uses a coherent visual style (colors, typography, spacing) consistently across screens.",
-        "All user-facing text is in English."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useTheme.ts",
-          "operation": "create",
-          "description": "Implement a theme hook that toggles light/dark mode by setting the root 'dark' class and persists the choice in localStorage."
-        },
-        {
-          "path": "frontend/src/components/settings/ThemeToggle.tsx",
-          "operation": "create",
-          "description": "Create a simple theme toggle control (English labels) that uses the theme hook."
-        },
-        {
-          "path": "frontend/src/pages/SettingsPage.tsx",
-          "operation": "create",
-          "description": "Create a Settings page containing ThemeToggle and other utilities (export/import, storage warning) while keeping all user-facing text in English."
-        },
-        {
-          "path": "frontend/src/index.css",
-          "operation": "create",
-          "description": "Add base styling and CSS variables compatible with Tailwind dark mode class strategy to ensure a coherent visual theme across the app."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire Settings page into authenticated navigation and apply consistent layout/typography across all pages."
-        }
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "summary": "Optimize large-library performance with thumbnail-first grids, incremental loading, and deferred full-resolution loading until viewer.",
-      "acceptanceCriteria": [
-        "Grid view uses thumbnails rather than full-size images.",
-        "Full-size image/video loads only when opening the viewer.",
-        "Library supports incremental loading (pagination or infinite scrolling) without UI freezing for large sets.",
-        "App remains responsive when scrolling through many items."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/media/MediaGrid.tsx",
-          "operation": "modify",
-          "description": "Ensure the grid uses thumbnail blobs (not full-resolution) via blob-storage direct URLs, uses incremental rendering/infinite scroll to keep DOM size bounded, and avoids heavy work on scroll."
-        },
-        {
-          "path": "frontend/src/components/media/MediaViewerModal.tsx",
-          "operation": "modify",
-          "description": "Ensure the viewer loads full-resolution media (original/edited) only when opened, and that the grid remains thumbnail-only."
-        },
-        {
-          "path": "frontend/src/hooks/useLibrary.ts",
-          "operation": "modify",
-          "description": "Add derived helpers/selectors to serve 'paged' slices of media to the grid (client-side incremental loading) and prefer thumbnail URLs for list views. Use blob-storage direct URL patterns for efficient streaming/caching. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "summary": "Add export/import utilities for library metadata (and references) with clear storage/cloud limitation warnings.",
-      "acceptanceCriteria": [
-        "User can export a backup file from the app.",
-        "User can import a previously exported backup file.",
-        "UI includes a clear note that third-party cloud backup (e.g., Google Drive) is not included and that storage limits may apply."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/utils/backup.ts",
-          "operation": "create",
-          "description": "Implement helpers to serialize library metadata to a downloadable JSON file and parse/validate an imported JSON backup file for submission back to the app."
-        },
-        {
-          "path": "frontend/src/components/settings/BackupExportImport.tsx",
-          "operation": "create",
-          "description": "Create UI for exporting and importing backups (file picker + download action) and show a clear English warning that cloud backups are not included and that storage limits may apply."
-        },
-        {
-          "path": "frontend/src/pages/SettingsPage.tsx",
-          "operation": "modify",
-          "description": "Wire BackupExportImport into Settings and ensure warnings are prominently displayed in English."
-        },
-        {
-          "path": "frontend/src/hooks/useLibrary.ts",
-          "operation": "modify",
-          "description": "Add functions for fetching the full library metadata for export and for applying imported metadata via backend capabilities intended for restore/import, then refresh queries after import."
-        }
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "summary": "Add generated static branding and empty-state images under frontend public assets and render them directly in the UI.",
-      "acceptanceCriteria": [
-        "Generated images exist under frontend/public/assets/generated and are used in the UI (e.g., app header/logo and empty gallery screen).",
-        "App builds and runs without requiring backend endpoints to serve these images."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
-          "operation": "create",
-          "description": "Add the generated branding asset at frontend/public/assets/generated/app-logo.dim_512x512.png and use it from the frontend as a static asset (not via backend)."
-        },
-        {
-          "path": "frontend/public/assets/generated/empty-gallery-illustration.dim_1200x800.png",
-          "operation": "create",
-          "description": "Add the generated empty gallery illustration at frontend/public/assets/generated/empty-gallery-illustration.dim_1200x800.png and render it in the Library empty state."
-        },
-        {
-          "path": "frontend/public/assets/generated/empty-albums-illustration.dim_1200x800.png",
-          "operation": "create",
-          "description": "Add the generated empty albums illustration at frontend/public/assets/generated/empty-albums-illustration.dim_1200x800.png and render it in the Albums empty state."
-        },
         {
           "path": "frontend/src/components/layout/AppHeader.tsx",
-          "operation": "create",
-          "description": "Create a shared app header that displays the static logo from frontend/public/assets/generated/app-logo.dim_512x512.png and includes primary navigation plus authentication controls."
+          "operation": "modify",
+          "description": "Clean up and harden the updated header implementation for build stability (e.g., correct types, remove unused imports, ensure mobile menu state is consistent across view switches)."
         },
         {
-          "path": "frontend/src/pages/LibraryPage.tsx",
+          "path": "frontend/src/components/auth/LoginButton.tsx",
           "operation": "modify",
-          "description": "Wire the empty library state to render frontend/public/assets/generated/empty-gallery-illustration.dim_1200x800.png when the user has no visible media."
-        },
-        {
-          "path": "frontend/src/pages/AlbumsPage.tsx",
-          "operation": "modify",
-          "description": "Wire the empty albums state to render frontend/public/assets/generated/empty-albums-illustration.dim_1200x800.png when the user has no albums."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Compose AppHeader into the authenticated layout so the logo and navigation are present across all pages."
+          "description": "Verify the auth button changes remain type-safe and do not introduce runtime issues (e.g., consistent disabled states, labels, and click handling) after responsive adjustments."
         }
       ]
     }
