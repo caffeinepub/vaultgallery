@@ -1,0 +1,214 @@
+{
+  "kind": "build_request",
+  "title": "Photo Gallery + Vault Web App (Albums, Editing, Lock, Themes)",
+  "projectName": "Vault Gallery",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and ensure all gallery data (photos, videos, albums, vault settings) is scoped per authenticated user principal.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Issi tarah ak gallery  app  banake do"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in and sign out using Internet Identity.",
+        "After sign-in, the app shows only the signed-in user’s media and albums; switching identities shows different data.",
+        "Unauthenticated users are prompted to sign in and cannot access any stored media."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Provide media library features: upload photos and videos, browse them in a fast, smooth-scrolling grid, and open a detail viewer for viewing with basic metadata (type, created/uploaded date, size).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Photos/videos dekhna",
+          "Fast scrolling photos"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can upload image and video files from their computer into the app.",
+        "Library displays uploaded media in a grid with thumbnails and supports smooth scrolling for large lists.",
+        "Clicking an item opens a viewer (image view or video player) with basic metadata shown.",
+        "Media persists across refreshes for the same signed-in identity."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add album management: create albums, rename albums, delete albums, add/remove media items to/from albums, and reorder albums in the UI.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Albums banana"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can create an album with a name.",
+        "User can rename and delete an album.",
+        "User can add/remove selected media items to/from an album.",
+        "User can reorder albums and the order persists after refresh."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add basic photo editing for images: crop, rotate, apply a small set of filters, and adjust brightness/contrast; allow saving edits as a new copy and optionally replacing the original.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Photo edit option",
+          "Crop, rotate, filters",
+          "Brightness/contrast adjust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "From an image viewer, user can open an editor with crop + rotate controls.",
+        "User can apply at least a few basic filters (e.g., grayscale, sepia, vivid) and adjust brightness/contrast.",
+        "User can save the edit as a new media item (copy).",
+        "User can choose to replace the original (when selected) and the result persists after refresh."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement privacy features: allow marking media items as Hidden/Locked and provide a Vault section that requires an app-specific PIN unlock before showing locked items.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Hide/lock photos",
+          "App lock (PIN/fingerprint)",
+          "Hidden folder / vault"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can set a PIN (with confirmation) after signing in.",
+        "Locked/hidden items are not visible in the main library or albums unless the Vault is unlocked.",
+        "Vault requires entering the PIN to view locked items; locking state resets on page reload.",
+        "User can change the PIN after successfully unlocking with the current PIN."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add Dark mode / Light mode support with a simple, consistent UI and a distinct visual theme applied across all pages and components.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Dark/light mode option",
+          "Simple layout"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can toggle between light and dark mode.",
+        "Theme choice persists across reloads (for the same browser).",
+        "UI uses a coherent visual style (colors, typography, spacing) consistently across screens.",
+        "All user-facing text is in English."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Optimize performance for large libraries by generating and using thumbnails for grid views, using efficient pagination/infinite scrolling, and avoiding loading full-resolution media until needed.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Performance Optimization-Fast image loading",
+          "Thumbnail generation",
+          "Memory optimization"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Grid view uses thumbnails rather than full-size images.",
+        "Full-size image/video loads only when opening the viewer.",
+        "Library supports incremental loading (pagination or infinite scrolling) without UI freezing for large sets.",
+        "App remains responsive when scrolling through many items."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add basic data management utilities: allow exporting the user’s library metadata (and references) and importing from a previously exported file; include a clear warning about storage limits.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Cloud backup (optional)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can export a backup file from the app.",
+        "User can import a previously exported backup file.",
+        "UI includes a clear note that third-party cloud backup (e.g., Google Drive) is not included and that storage limits may apply."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Generate and include static image assets for branding and empty states, and render them from frontend static assets (not via backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Issi tarah ak gallery  app  banake do"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated and are used in the UI (e.g., app header/logo and empty gallery screen).",
+        "App builds and runs without requiring backend endpoints to serve these images."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Do not modify files under frontend/src/components/ui (compose them only).",
+    "Do not modify immutable hook/entry paths listed in SYSTEM_CONTEXT; integrate via allowed components and pages.",
+    "Use English for all user-facing UI text.",
+    "Do not rely on device/mobile OS media permissions; implement media management via web upload and canister storage within platform limits."
+  ],
+  "nonGoals": [
+    "Native Android/iOS app implementation (Java/Kotlin/Swift/Flutter/React Native) is out of scope for this build.",
+    "Fingerprint/biometric unlock is out of scope for the web app (PIN-based vault only).",
+    "Direct integration with Google Drive or other third-party cloud backup providers is out of scope.",
+    "Accessing the user’s phone gallery/OS media store directly is out of scope for a web-based IC app."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimalist lock + photo mark logo, flat vector style (app-logo.dim_512x512.png)",
+      "Empty gallery illustration, dark/light friendly, simple shapes, no text (empty-gallery-illustration.dim_1200x800.png)",
+      "Empty albums illustration, simple folder/album motif, no text (empty-albums-illustration.dim_1200x800.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

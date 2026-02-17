@@ -1,0 +1,211 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-ensure-all-gallery-data-photos-videos-albums-vault-settings-is-scoped-per-authenticated-user-principal",
+      "featureTitle": "Implement Internet Identity sign-in and ensure all gallery data (photos, videos, albums, vault settings) is scoped per authenticated user principal.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/hooks/useUserProfile.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-media-library-features-upload-photos-and-videos-browse-them-in-a-fast-smooth-scrolling-grid-and-open-a-detail-viewer-for-viewing-with-basic-metadata-type-created-uploaded-date-size",
+      "featureTitle": "Provide media library features: upload photos and videos, browse them in a fast, smooth-scrolling grid, and open a detail viewer for viewing with basic metadata (type, created/uploaded date, size).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/media/MediaGrid.tsx",
+        "frontend/src/components/media/MediaUploader.tsx",
+        "frontend/src/components/media/MediaViewerModal.tsx",
+        "frontend/src/hooks/useLibrary.ts",
+        "frontend/src/pages/LibraryPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-album-management-create-albums-rename-albums-delete-albums-add-remove-media-items-to-from-albums-and-reorder-albums-in-the-ui",
+      "featureTitle": "Add album management: create albums, rename albums, delete albums, add/remove media items to/from albums, and reorder albums in the UI.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useAlbums.ts",
+        "frontend/src/pages/AlbumsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-photo-editing-for-images-crop-rotate-apply-a-small-set-of-filters-and-adjust-brightness-contrast-allow-saving-edits-as-a-new-copy-and-optionally-replacing-the-original",
+      "featureTitle": "Add basic photo editing for images: crop, rotate, apply a small set of filters, and adjust brightness/contrast; allow saving edits as a new copy and optionally replacing the original.",
+      "files": [
+        "frontend/src/components/editor/ImageEditorModal.tsx",
+        "frontend/src/components/media/MediaViewerModal.tsx",
+        "frontend/src/hooks/useLibrary.ts",
+        "frontend/src/utils/imageEditing.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-privacy-features-allow-marking-media-items-as-hidden-locked-and-provide-a-vault-section-that-requires-an-app-specific-pin-unlock-before-showing-locked-items",
+      "featureTitle": "Implement privacy features: allow marking media items as Hidden/Locked and provide a Vault section that requires an app-specific PIN unlock before showing locked items.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/vault/PinSetupModal.tsx",
+        "frontend/src/components/vault/VaultUnlockModal.tsx",
+        "frontend/src/hooks/useVault.ts",
+        "frontend/src/pages/LibraryPage.tsx",
+        "frontend/src/pages/VaultPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-dark-mode-light-mode-support-with-a-simple-consistent-ui-and-a-distinct-visual-theme-applied-across-all-pages-and-components",
+      "featureTitle": "Add Dark mode / Light mode support with a simple, consistent UI and a distinct visual theme applied across all pages and components.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/SettingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-optimize-performance-for-large-libraries-by-generating-and-using-thumbnails-for-grid-views-using-efficient-pagination-infinite-scrolling-and-avoiding-loading-full-resolution-media-until-needed",
+      "featureTitle": "Optimize performance for large libraries by generating and using thumbnails for grid views, using efficient pagination/infinite scrolling, and avoiding loading full-resolution media until needed.",
+      "files": [
+        "frontend/src/components/media/MediaGrid.tsx",
+        "frontend/src/components/media/MediaViewerModal.tsx",
+        "frontend/src/hooks/useLibrary.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-data-management-utilities-allow-exporting-the-user-s-library-metadata-and-references-and-importing-from-a-previously-exported-file-include-a-clear-warning-about-storage-limits",
+      "featureTitle": "Add basic data management utilities: allow exporting the user’s library metadata (and references) and importing from a previously exported file; include a clear warning about storage limits.",
+      "files": [
+        "frontend/src/hooks/useLibrary.ts",
+        "frontend/src/pages/SettingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-static-image-assets-for-branding-and-empty-states-and-render-them-from-frontend-static-assets-not-via-backend",
+      "featureTitle": "Generate and include static image assets for branding and empty states, and render them from frontend static assets (not via backend).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/pages/AlbumsPage.tsx",
+        "frontend/src/pages/LibraryPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

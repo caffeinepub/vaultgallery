@@ -1,0 +1,113 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T17:44:37.303Z",
+  "summary": "Diff adds a Motoko backend actor with media/album/vault types plus a React frontend implementing Internet Identity login flow, media upload with thumbnail generation, grid with infinite scroll, viewer with metadata, basic image editing (filters/brightness/contrast/rotate) saved as a copy, album creation UI, vault PIN setup/unlock modals, and theme base variables with next-themes provider. Several BuildRequest requirements are only partially implemented or not evidenced in the diff (album full CRUD/reorder UI, crop/replace-original editing, vault visibility rules/change PIN, explicit theme toggle, and import/export utilities). Also some features were added that were not requested (user profile onboarding, admin-token-based access control initialization).",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "Add full album management: rename albums, delete albums, add/remove media items to/from albums, and reorder albums in the UI (with persistence).",
+      "reason": "Only album creation is clearly shown in the UI; while a reorder hook exists, the diff does not show UI for rename/delete, adding/removing media to albums, or drag/reorder interactions. Backend album functions are not evidenced due to backend truncation.",
+      "evidence": [
+        "frontend/src/pages/AlbumsPage.tsx",
+        "frontend/src/hooks/useAlbums.ts",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Photo editing must include crop controls and allow saving edits as a new copy and optionally replacing the original, with persistence.",
+      "reason": "Editor modal shows rotate + brightness/contrast + basic filters and a 'Save as copy' flow; no evidence of crop UI/logic, and no evidence of a 'replace original' option or corresponding backend update path. Also saving appears to create a new media item rather than updating existing item.",
+      "evidence": [
+        "frontend/src/components/editor/ImageEditorModal.tsx (truncated)",
+        "frontend/src/components/media/MediaViewerModal.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Privacy: locked/hidden items are not visible in the main library or albums unless the Vault is unlocked; vault locking state resets on page reload; user can change PIN after unlocking with current PIN.",
+      "reason": "PIN setup/unlock modals and a local vault unlocked state hook exist, but the diff does not show (a) filtering locked items out of Library/Albums when vault is locked, (b) a Vault page that displays locked items only after unlock, or (c) a change-PIN flow after unlocking. Backend vault code is truncated so change-PIN support is not evidenced.",
+      "evidence": [
+        "frontend/src/components/vault/PinSetupModal.tsx",
+        "frontend/src/components/vault/VaultUnlockModal.tsx",
+        "frontend/src/hooks/useVault.ts",
+        "frontend/src/App.tsx",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Provide a light/dark mode toggle in the UI and persist the choice across reloads.",
+      "reason": "ThemeProvider is used and CSS variables for .dark are defined, but there is no evidence of any UI control to toggle theme (e.g., a button/select) or of persisting a user selection beyond next-themes defaults.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/index.css"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Data management utilities: export library metadata and import from exported file; include a clear warning about storage limits and no third-party cloud backup.",
+      "reason": "No export/import UI, hooks, or backend endpoints are shown in the diff. No warning text about storage limits / no Google Drive backup is evidenced.",
+      "evidence": [
+        "frontend/src/pages (only AlbumsPage shown; other pages not evidenced)",
+        "frontend/src/hooks (no export/import hooks shown)",
+        "backend/main.mo (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile onboarding (name capture) with profile storage APIs and a mandatory profile setup modal after login.",
+      "reason": "BuildRequest does not mention user profiles or requiring a name/profile setup step; it only specifies scoping data per authenticated principal.",
+      "evidence": [
+        "backend/main.mo (truncated)",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/hooks/useUserProfile.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Admin-token/secret-parameter-based access control initialization via URL parameter (caffeineAdminToken) and authorization mixins.",
+      "reason": "BuildRequest does not request an admin token mechanism or secret URL parameter initialization; it only requires Internet Identity auth and per-principal scoping.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo (truncated)"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/editor/ImageEditorModal.tsx",
+    "frontend/src/components/layout/AppHeader.tsx",
+    "frontend/src/components/media/MediaGrid.tsx",
+    "frontend/src/components/media/MediaUploader.tsx",
+    "frontend/src/components/media/MediaViewerModal.tsx",
+    "frontend/src/components/vault/PinSetupModal.tsx",
+    "frontend/src/components/vault/VaultUnlockModal.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useAlbums.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useLibrary.ts",
+    "frontend/src/hooks/useUserProfile.ts",
+    "frontend/src/hooks/useVault.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AlbumsPage.tsx",
+    "frontend/src/pages/LibraryPage.tsx",
+    "frontend/src/pages/LoginScreen.tsx",
+    "frontend/src/pages/SettingsPage.tsx",
+    "frontend/src/pages/VaultPage.tsx",
+    "frontend/src/utils/imageEditing.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}
